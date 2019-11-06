@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buscar Materia</title>
+    <style>
+         .titulos{
+        color:rgb(40, 172, 40);
+        font-size: 36px;
+        } 
+        th, td, p, input {
+            font:14px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+        table, th, td 
+        {
+            border: solid 4px rgba(17, 17, 2, 0.925);
+          border-block-color: rgb(106, 238, 243);  
+            padding: 17px 17px;
+            text-align: center;
+            background-color: rgb(222, 245, 225);
+        }
+        th {
+           font-family:Arial, Helvetica, sans-serif;
+        }
+        .buttons { 
+                background:rgba(72, 206, 68, 0.829);padding: 10px; color: rgb(10, 10, 10);
+                box-shadow: 1 1px 1px rgba(58, 55, 240, 0.829);
+                font-family:Verdana, Geneva, Tahoma, sans-serif;
+                font-size: 16px;
+                }
+    </style>
+</head>
+
+
+<body>
+    <center>
+    <h1 class="titulos">Materias</h1>
+    <input class="buttons" type="button" onclick="crearMateria()" value="Buscar Materias" />
+    <p id="Data"></p>
+</center>
+</body>
+
+
+<script>
+  
+    function crearMateria() {
+                  
+       
+        fetch("/materia.php")
+        .then( res=> res.json())
+        .then( guardar=>{
+            
+             var col = [];
+              for (var i = 0; i < guardar.length; i++) {
+                 for (var key in guardar[i]) {
+                   if (col.indexOf(key) === -1) {
+                    col.push(key);
+                    }
+                   }
+                }
+                
+                     var table = document.createElement("table");
+        
+                       
+                     var tr = table.insertRow(-1);                   
+                 for (var i = 0; i < col.length; i++) {
+                    var th = document.createElement("th");      
+                    th.innerHTML = col[i];
+                    tr.appendChild(th);
+                    }
+        
+       
+                    
+                 for (var i = 0; i < guardar.length; i++) {
+                         tr = table.insertRow(-1);
+               
+                        for (var j = 0; j < col.length; j++) {
+                         var tabCell = tr.insertCell(-1);
+                        tabCell.innerHTML = guardar[i][col[j]];
+                            }
+                    }
+                  
+                    var divContainer = document.getElementById("Data");
+                    divContainer.innerHTML = "";
+                    divContainer.appendChild(table);
+                
+        })
+        .catch( err => {
+            console.log(err);
+        });
+                    
+        
+    }
+</script>
+</html>

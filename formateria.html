@@ -1,0 +1,56 @@
+  
+<html>
+    <head><title>Agregar Materia</title></head>
+    <style>
+            .titulos{
+           color:rgb(199, 70, 70); 
+           font-size: 28px;
+           } 
+
+           .titulos_d {
+            color:rgb(110, 63, 185); 
+            font: 120% sans-serif;
+           }
+            .buttons { 
+                background: rgb(10, 10, 129); padding: 10px; color: rgb(255, 255, 255);
+                box-shadow: 0 2px 2px rgba(240, 25, 25, 0.829);
+                }
+          
+       </style>
+    <body>
+    <center>
+    <form id="idform" action="/materia.php" method="POST">
+     <h1 class="titulos">Agregar Datos de la Materia </h1>
+     <h1 class="titulos_d">Digite el Nombre de la Materia <input type="text" id="nombre"/></h1>
+     <h1 class="titulos_d">Digite la Cantidad de Creditos <input type="text" id="creditos"/></h1>
+      <input class="buttons" type="button" onclick="guardarMateria(document.getElementById
+      ('nombre').value,document.getElementById('creditos').value)" value="  Guardar Datos   " /> 
+      <input class="buttons" type="reset" value="   Limpiar  "/>
+    </form>
+</center>
+    </body>
+    
+    
+    <script>
+              function guardarMateria(nombre, creditos) {
+                
+                data = {  "nombre": nombre, "creditos": creditos
+                        }
+                
+                    fetch("/materia.php", {
+                    method: 'POST', 
+                    body: JSON.stringify(data), 
+                    header:{ 'Content-Type': 'application/json'
+                    }
+
+                    })
+
+                    .then(function (data) {  console.log('Request success: ', data);  
+                            })  
+                    .catch(function (error) {   console.log('Request failure: ', error);  
+                            });
+            
+            }
+    </script>
+        
+    </html>
